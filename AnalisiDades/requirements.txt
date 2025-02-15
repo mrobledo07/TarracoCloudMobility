@@ -1,0 +1,6 @@
+openpyxl>=3.0.0
+matplotlib>=3.0.0
+# install prophet package
+prophet>=1.0.1
+# install pandas package
+pandas>=1.0.0
