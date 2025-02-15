@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menú Principal - BusTarragona</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #007bff, #00c3ff);
+            padding: 20px;
+        }
+
+        .main-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            padding: 2rem;
+        }
+
+        .welcome-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding: 2rem;
+            background: #f8f9fa;
+            border-radius: 12px;
+        }
+
+        .welcome-header h1 {
+            color: #007bff;
+            margin-bottom: 0.5rem;
+        }
+
+        .news-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .news-card {
+            background: #fff;
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 1px solid #e9ecef;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .news-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+        }
+
+        .news-title {
+            color: #007bff;
+            margin-bottom: 1rem;
+            font-size: 1.2em;
+        }
+
+        .news-content {
+            color: #495057;
+            line-height: 1.6;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+
+        .menu-button {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            background: #007bff;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            transition: all 0.2s ease;
+            z-index: 2;
+        }
+
+        .menu-button:hover {
+            background: #0069d9;
+            transform: translateY(-1px);
+        }
+
+        .dropdown-menu {
+            display: none;
+            position: fixed;
+            top: 80px;
+            right: 30px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+            min-width: 220px;
+            animation: menuSlide 0.3s ease-out;
+        }
+
+        @keyframes menuSlide {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .dropdown-menu a {
+            display: block;
+            padding: 15px 20px;
+            color: #212529;
+            text-decoration: none;
+            transition: background 0.2s ease;
+            border-bottom: 1px solid #f8f9fa;
+        }
+
+        .dropdown-menu a:hover {
+            background: #f8f9fa;
+            color: #007bff;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
+            .main-container {
+                padding: 1.5rem;
+            }
+            
+            .menu-button {
+                top: 20px;
+                right: 20px;
+                padding: 10px 20px;
+            }
+            
+            .dropdown-menu {
+                top: 70px;
+                right: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="menu-button" id="menuBtn">☰ Menú</button>
+    
+    <div class="dropdown-menu" id="dropdownMenu">
+        <a href="consultar-autobuses.html">Consultar Autobuses</a>
+        <a href="comprar-billetes.html">Comprar Billetes</a>
+    </div>
+
+    <div class="main-container">
+        <div class="welcome-header">
+            <h1 id="welcomeMessage"></h1>
+            <p>Tu transporte urbano en Tarragona</p>
+        </div>
+
+        <div class="news-list">
+            <!-- Noticia 1 -->
+            <div class="news-card" onclick="toggleNews(1)">
+                <h3 class="news-title">Nueva Línea Express Centro-Puerto</h3>
+                <div class="news-content" id="newsContent1">
+                    <p>Conecta el centro histórico con el puerto deportivo en solo 15 minutos:</p>
+                    <ul>
+                        <li>Frecuencia: cada 10 minutos</li>
+                        <li>Horario: 6:00 - 24:00</li>
+                        <li>Paradas estratégicas</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Noticia 2 -->
+            <div class="news-card" onclick="toggleNews(2)">
+                <h3 class="news-title">Horarios Especiales Verano 2024</h3>
+                <div class="news-content" id="newsContent2">
+                    <p>Actualizaciones importantes para la temporada estival:</p>
+                    <ul>
+                        <li>Servicio nocturno ampliado</li>
+                        <li>Refuerzo líneas turísticas</li>
+                        <li>Rutas playeras gratuitas</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Noticia 3 -->
+            <div class="news-card" onclick="toggleNews(3)">
+                <h3 class="news-title">Modernización de Paradas</h3>
+                <div class="news-content" id="newsContent3">
+                    <p>Nuevas marquesinas inteligentes:</p>
+                    <ul>
+                        <li>Pantallas informativas en tiempo real</li>
+                        <li>Carga USB gratuita</li>
+                        <li>Acceso wifi gratuito</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Noticia 4 -->
+            <div class="news-card" onclick="toggleNews(4)">
+                <h3 class="news-title">App Actualizada</h3>
+                <div class="news-content" id="newsContent4">
+                    <p>Nuevas funcionalidades disponibles:</p>
+                    <ul>
+                        <li>Planificador de rutas integrado</li>
+                        <li>Notificaciones en tiempo real</li>
+                        <li>Sistema de pagos digital</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Noticia 5 -->
+            <div class="news-card" onclick="toggleNews(5)">
+                <h3 class="news-title">Flota Ecológica</h3>
+                <div class="news-content" id="newsContent5">
+                    <p>Nuevos autobuses híbridos:</p>
+                    <ul>
+                        <li>Reducción de emisiones CO2</li>
+                        <li>Motores más silenciosos</li>
+                        <li>Accesibilidad mejorada</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Obtener nombre de usuario
+        const urlParams = new URLSearchParams(window.location.search);
+        document.getElementById('welcomeMessage').textContent = `Bienvenido, ${urlParams.get('username') || 'Usuario'}!`;
+
+        // Control del Menú
+        const menuBtn = document.getElementById('menuBtn');
+        const dropdownMenu = document.getElementById('dropdownMenu');
+
+        menuBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';
+        });
+
+        // Función para noticias
+        function toggleNews(newsNumber) {
+            const content = document.getElementById(`newsContent${newsNumber}`);
+            content.style.maxHeight = content.style.maxHeight ? null : `${content.scrollHeight}px`;
+            
+            document.querySelectorAll('.news-content').forEach(item => {
+                if(item !== content) item.style.maxHeight = null;
+            });
+        }
+
+        // Cerrar menú al hacer click fuera
+        window.addEventListener('click', (e) => {
+            if(!menuBtn.contains(e.target)) {
+                dropdownMenu.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>

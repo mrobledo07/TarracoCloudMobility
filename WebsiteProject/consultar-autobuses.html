@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Línea 41 - Recorrido</title>
+  <!-- Estilos de Leaflet -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <!-- Estilos de Leaflet Routing Machine -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.css" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    body {
+      min-height: 100vh;
+      background: #f0f4f8;
+      padding: 2rem;
+    }
+    .linea-container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .linea-header {
+      background: #1a237e;
+      color: white;
+      padding: 1.5rem;
+      border-radius: 12px;
+      margin-bottom: 1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    .linea-header:hover {
+      transform: translateY(-2px);
+    }
+    .itinerario-container {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.5s ease-in-out;
+      margin: 1rem 0;
+    }
+    .itinerario-container.active {
+      max-height: 1000px;
+    }
+    /* Contenedor del mapa interactivo */
+    .map-container {
+      width: 100%;
+      height: 500px;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      margin-bottom: 1rem;
+    }
+    .info-bus {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.5s ease 0.4s;
+    }
+    .itinerario-container.active .info-bus {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .info-item {
+      display: flex;
+      align-items: center;
+      margin: 1rem 0;
+      font-size: 1.1em;
+      gap: 1rem;
+    }
+    .info-icon {
+      font-size: 1.8em;
+      min-width: 40px;
+      text-align: center;
+    }
+    .progress-bar {
+      width: 100%;
+      height: 15px;
+      background: #e9ecef;
+      border-radius: 10px;
+      overflow: hidden;
+      margin: 0.5rem 0;
+    }
+    .progress-fill {
+      width: 50%;
+      height: 100%;
+      background: hsl(60, 100%, 50%);
+      transition: width 0.5s ease, background 0.5s ease;
+    }
+    @media (max-width: 768px) {
+      body {
+        padding: 1rem;
+      }
+      .linea-header {
+        padding: 1rem;
+      }
+      .map-container {
+        height: 300px;
+      }
+      .info-item {
+        font-size: 1em;
+        flex-wrap: wrap;
+      }
+      .progress-fill {
+        transition: width 0.5s ease, background 0.5s ease;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="linea-container">
+    <div class="linea-header" onclick="toggleItinerario()">
+      <h2>Línea 41</h2>
+      <p>Recorrido: Centro Histórico - Zona Industrial</p>
+    </div>
+    <div class="itinerario-container" id="itinerario">
+      <!-- Mapa interactivo -->
+      <div id="map" class="map-container"></div>
+      <div class="info-bus">
+        <div class="info-item">
+          <div class="info-icon">🚌</div>
+          <div>
+            <strong>Ocupación actual:</strong>
+            <div class="progress-bar">
+              <div class="progress-fill"></div>
+            </div>
+            <span class="occupancy-status">50% ocupado</span>
+          </div>
+        </div>
+        <div class="info-item">
+          <div class="info-icon">♿</div>
+          <div>
+            <strong>Accesibilidad:</strong><br />
+            <span class="accessibility-status">1/2 plazas disponibles</span>
+          </div>
+        </div>
+        <div class="info-item">
+          <div class="info-icon">⏱️</div>
+          <div>
+            <strong>Próxima llegada:</strong><br />
+            8 min (parada principal)
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts de Leaflet -->
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <!-- Script de Leaflet Routing Machine -->
+  <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
+  <!-- Script de Leaflet Moving Marker -->
+  <script src="https://cdn.jsdelivr.net/gh/ewoken/Leaflet.MovingMarker/MovingMarker.js"></script>
+  <script>
+    function toggleItinerario() {
+      const itinerario = document.getElementById('itinerario');
+      itinerario.classList.toggle('active');
+      if (itinerario.classList.contains('active')) {
+        if (!window.mapInitialized) {
+          // Inicializamos el mapa centrado en Tarragona
+          var map = L.map('map').setView([41.1264, 1.2452], 15);
+          L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap contributors'
+          }).addTo(map);
+          
+          // Definimos los puntos de la ruta:
+          var start = L.latLng(41.119339, 1.245733); // Plaza Imperial Tarraco
+          var end   = L.latLng(41.133425, 1.244616);   // Campus Sescelades
+          
+          // Dibujamos la ruta con Leaflet Routing Machine sin mostrar indicaciones
+          var routingControl = L.Routing.control({
+            waypoints: [start, end],
+            router: L.Routing.osrmv1({
+              serviceUrl: 'https://router.project-osrm.org/route/v1'
+            }),
+            lineOptions: {
+              styles: [{ color: 'blue', opacity: 0.8, weight: 4 }]
+            },
+            createMarker: function() { return null; },
+            addWaypoints: false,
+            draggableWaypoints: false,
+            routeWhileDragging: false,
+            fitSelectedRoutes: true,
+            show: false
+          }).addTo(map);
+          
+          // Cuando se encuentre la ruta, extraemos sus coordenadas para que el marcador las siga
+          routingControl.on('routesfound', function(e) {
+            var routes = e.routes;
+            if (routes.length > 0) {
+              var route = routes[0];
+              // Extraemos el array de coordenadas del recorrido
+              var coords = route.coordinates;
+              var latLngs = coords.map(function(c) {
+                return L.latLng(c.lat, c.lng);
+              });
+              // Calculamos la distancia total de la ruta
+              var totalDistance = 0;
+              for (var i = 0; i < latLngs.length - 1; i++) {
+                totalDistance += latLngs[i].distanceTo(latLngs[i+1]);
+              }
+              // Establecemos la duración total de la animación 10 veces más lenta (150 segundos)
+              var totalDuration = 150000;
+              // Calculamos la duración de cada segmento proporcionalmente a la distancia
+              var durations = [];
+              for (var i = 0; i < latLngs.length - 1; i++) {
+                var segmentDistance = latLngs[i].distanceTo(latLngs[i+1]);
+                durations.push(totalDuration * (segmentDistance / totalDistance));
+              }
+              // Si ya existe un marcador móvil, lo eliminamos
+              if (window.movingMarker) {
+                map.removeLayer(window.movingMarker);
+              }
+
+              // Creamos el marcador móvil que seguirá la ruta real y usamos un icono grande con el emoticono de autobús
+              window.movingMarker = L.Marker.movingMarker(latLngs, durations, {
+              autostart: true,
+              loop: true,
+              icon: L.icon({
+                  iconUrl: 'bus.png',  // Ensure this image is in the same directory
+                  iconSize: [60, 60],  // Adjust size as needed
+                  iconAnchor: [30, 30] // Centers the icon properly
+              })
+          }).addTo(map);
+            }
+          });
+          
+          window.mapInitialized = true;
+        }
+      }
+    }
+    
+    // Conexión WebSocket para actualizar la ocupación y la accesibilidad
+    const ws = new WebSocket('ws://localhost:3000');
+    const progressFill = document.querySelector('.progress-fill');
+    const occupancyStatus = document.querySelector('.occupancy-status');
+    const accessibilityStatus = document.querySelector('.accessibility-status');
+    
+    ws.onmessage = (event) => {
+      const data = JSON.parse(event.data);
+      if (data.type === 'occupancy') {
+        progressFill.style.width = `${data.value}%`;
+        occupancyStatus.textContent = `${data.value}% ocupado`;
+        const hue = 120 - (data.value * 1.2);
+        progressFill.style.background = `hsl(${hue}, 100%, 50%)`;
+      } else if (data.type === 'accessibility') {
+        accessibilityStatus.textContent = `${data.available}/${data.total} plazas disponibles`;
+      }
+    };
+  </script>
+</body>
+</html>
