@@ -191,45 +191,53 @@
           }).addTo(map);
           
           // Cuando se encuentre la ruta, extraemos sus coordenadas para que el marcador las siga
-          routingControl.on('routesfound', function(e) {
-            var routes = e.routes;
-            if (routes.length > 0) {
-              var route = routes[0];
-              // Extraemos el array de coordenadas del recorrido
-              var coords = route.coordinates;
-              var latLngs = coords.map(function(c) {
-                return L.latLng(c.lat, c.lng);
-              });
-              // Calculamos la distancia total de la ruta
-              var totalDistance = 0;
-              for (var i = 0; i < latLngs.length - 1; i++) {
-                totalDistance += latLngs[i].distanceTo(latLngs[i+1]);
-              }
-              // Establecemos la duración total de la animación 10 veces más lenta (150 segundos)
-              var totalDuration = 150000;
-              // Calculamos la duración de cada segmento proporcionalmente a la distancia
-              var durations = [];
-              for (var i = 0; i < latLngs.length - 1; i++) {
-                var segmentDistance = latLngs[i].distanceTo(latLngs[i+1]);
-                durations.push(totalDuration * (segmentDistance / totalDistance));
-              }
-              // Si ya existe un marcador móvil, lo eliminamos
-              if (window.movingMarker) {
-                map.removeLayer(window.movingMarker);
-              }
+          routingControl.on('routesfound', function (e) {
+    var routes = e.routes;
+    if (routes.length > 0) {
+        var route = routes[0];
+        var coords = route.coordinates;
+        var latLngs = coords.map(c => L.latLng(c.lat, c.lng));
 
-              // Creamos el marcador móvil que seguirá la ruta real y usamos un icono grande con el emoticono de autobús
-              window.movingMarker = L.Marker.movingMarker(latLngs, durations, {
-              autostart: true,
-              loop: true,
-              icon: L.icon({
-                  iconUrl: 'bus.png',  // Ensure this image is in the same directory
-                  iconSize: [60, 60],  // Adjust size as needed
-                  iconAnchor: [30, 30] // Centers the icon properly
-              })
-          }).addTo(map);
+        var totalDistance = 0;
+        for (var i = 0; i < latLngs.length - 1; i++) {
+            totalDistance += latLngs[i].distanceTo(latLngs[i + 1]);
+        }
+
+        var totalDuration = 150000; // 150 seconds total
+        var durations = [];
+        for (var i = 0; i < latLngs.length - 1; i++) {
+            var segmentDistance = latLngs[i].distanceTo(latLngs[i + 1]);
+            durations.push(totalDuration * (segmentDistance / totalDistance));
+        }
+
+        if (window.movingMarker) {
+            map.removeLayer(window.movingMarker);
+        }
+
+        window.movingMarker = L.Marker.movingMarker(latLngs, durations, {
+            autostart: true,
+            loop: true,
+            icon: L.icon({
+                iconUrl: 'bus.png',
+                iconSize: [60, 60],
+                iconAnchor: [30, 30]
+            })
+        }).addTo(map);
+
+        // Pause every 20 seconds for 10 seconds
+        let timeElapsed = 0;
+        let interval = setInterval(() => {
+            timeElapsed += 1000;
+
+            if (timeElapsed % 20000 === 0) { // Every 20 seconds
+                window.movingMarker.pause();
+                setTimeout(() => {
+                    window.movingMarker.start();
+                }, 10000); // Resume after 10 seconds
             }
-          });
+        }, 1000);
+    }
+});
           
           window.mapInitialized = true;
         }
