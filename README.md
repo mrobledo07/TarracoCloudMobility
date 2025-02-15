@@ -2,7 +2,7 @@
 
 Aquest projecte està enfocat a millorar la elasticitat del servei de transport d'autobusos urbà i a aportar transparència a l'usuari, facilitant-ne el seu ús. Implementem un sistema de detecció d'ocupació per informar de la saturació dels busos, i un algorisme de predicció d'ocupació per ajudar a l'empresa a oferir la millor cobertura.
 
-## 👥 Equip - ClouudChain
+## 👥 Equip - CloudChain
 
 ### Víctor Fosch Tena
 
@@ -26,11 +26,13 @@ Aquest projecte està enfocat a millorar la elasticitat del servei de transport 
 
 ## ❓ Problema abordat
 
-Explicació concisa del problema identificat i la seva rellevància.
+Hem detectat un descontet general als habitants de Tarragona tant amb la freqüència del servei com amb la incertesa d'aquest. 
 
 ## 💡 La nostra solució
 
-Descripció de la solució proposada i com resol el problema.
+Abordem el problema desde dos perspectives:
+ - **Perspectiva de l'empresa**: oferim un sistema de conteig de persones al autobús per detectar saturacions, implementem un algorisme de predicció d'ocupació a futur per planificar millor el  servei i oferim una arquitectura al cloud per gestionar-ho tot, pensada amb la fiabilitat, la velocitat i la escalabilitat a futur.
+ - **Perspectiva de l'usuari**: oferim una aplicació web que ofereix: compra online de l'abonament de transport, mapa interactiu amb informació en temps real de l'ocupació dels busos, nombre de places lliures per persones amb mobilitat reduïda i localització dels busos.
 
 ## 🛠️ Tecnologies utilitzades
 
