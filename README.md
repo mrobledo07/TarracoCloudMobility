@@ -31,7 +31,9 @@ Hem detectat un descontet general als habitants de Tarragona tant amb la freqü�
 ## 💡 La nostra solució
 
 Abordem el problema desde dos perspectives:
- - **Perspectiva de l'empresa**: oferim un sistema de conteig de persones al autobús per detectar saturacions, implementem un algorisme de predicció d'ocupació a futur per planificar millor el  servei i oferim una arquitectura al cloud per gestionar-ho tot, pensada amb la fiabilitat, la velocitat i la escalabilitat a futur.
+ - **Perspectiva de l'empresa**: oferim un sistema de conteig de persones al autobús per detectar saturacions
+                                 implementem un algorisme de predicció d'ocupació a futur per planificar millor el  servei
+                                 oferim una arquitectura al cloud per gestionar-ho tot, pensada amb la fiabilitat, la velocitat i la escalabilitat a futur.
  - **Perspectiva de l'usuari**: oferim una aplicació web que ofereix: compra online de l'abonament de transport, mapa interactiu amb informació en temps real de l'ocupació dels busos, nombre de places lliures per persones amb mobilitat reduïda i localització dels busos.
 
 ## 🛠️ Tecnologies utilitzades
