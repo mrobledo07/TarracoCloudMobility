@@ -6,11 +6,18 @@ import sys
 
 # Validar parámetros: se esperan el nombre del fichero y el día (ej. "02/01")
 if len(sys.argv) != 3:
-    print("Uso: python script.py <archivo_json> <día>")
-    print('Ejemplo: python script.py predicciones.json "02/01"')
+    print("Uso: python script.py <numero_linea> <día>")
+    print('Ejemplo: python script.py "02/01"')
     sys.exit(1)
 
-filename = sys.argv[1]
+
+line_number = sys.argv[1]
+if line_number not in ("41", "54"):
+    print("Número de línea inválido. Usar 41 o 54")
+    exit(1)
+
+# Cargar datos según parámetro (modificado)
+filename = f"linia{line_number}_prediccions.json"  # Nombre dinámico del archivo
 selected_day = sys.argv[2]
 
 # Cargar datos desde el fichero JSON
