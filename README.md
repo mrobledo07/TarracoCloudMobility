@@ -6,22 +6,22 @@ Aquest projecte està enfocat a millorar la elasticitat del servei de transport 
 
 ### Víctor Fosch Tena
 
-[![Email](https://img.shields.io/badge/Email-<adreca-correu1>-blue)](mailto:<adreca-correu1>)
+[![Email](https://img.shields.io/badge/Email-<adreca-correu1>-blue)](mailto:victor.fosch@estudiants.urv.cat)
 
-[![GitHub](https://img.shields.io/badge/GitHub-<nom-usuari-github1>-black?logo=github)](https://github.com/<nom-usuari-github1>)
+[![GitHub](https://img.shields.io/badge/GitHub-<nom-usuari-github1>-black?logo=github)](https://github.com/V0NINE)
 
 ### Joan Ignasi Cid Guardia
 
-[![Email](https://img.shields.io/badge/Email-<adreca-correu2>-blue)](mailto:<adreca-correu2>)
+[![Email](https://img.shields.io/badge/Email-<adreca-correu2>-blue)](mailto:joanignasi.cid@estudiants.urv.cat)
 
-[![GitHub](https://img.shields.io/badge/GitHub-<nom-usuari-github2>-black?logo=github)](https://github.com/<nom-usuari-github2>)
+[![GitHub](https://img.shields.io/badge/GitHub-<nom-usuari-github2>-black?logo=github)](https://github.com/JoanICG)
 
 
 ### Miguel Robledo Kusz
 
-[![Email](https://img.shields.io/badge/Email-<adreca-correu3>-blue)](mailto:<adreca-correu3>)
+[![Email](https://img.shields.io/badge/Email-<adreca-correu3>-blue)](mailto:miguel.robledo@estudiants.urv.cat)
 
-[![GitHub](https://img.shields.io/badge/GitHub-<nom-usuari-github3>-black?logo=github)](https://github.com/<nom-usuari-github3>)
+[![GitHub](https://img.shields.io/badge/GitHub-<nom-usuari-github3>-black?logo=github)](https://github.com/mrobledo07)
 
 
 ## ❓ Problema abordat
