@@ -26,7 +26,7 @@ Aquest projecte està enfocat a millorar la elasticitat del servei de transport 
 
 ## ❓ Problema abordat
 
-Hem detectat un descontet general als habitants de Tarragona tant amb la freqüència del servei com amb la incertesa d'aquest. 
+Hem detectat un descontent general als habitants de Tarragona tant amb la freqüència del servei com amb la incertesa d'aquest. 
 
 ## 💡 La nostra solució
 
