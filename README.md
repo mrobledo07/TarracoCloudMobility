@@ -57,6 +57,7 @@ Aquest projecte promociona un increment en l'ús del transport públic, generant
 ## 📸 Captures i/o demo del projecte
 
 **GRÀFIC DE PREDICCIÓ D'OCUPACIÓ SETMANAL**
+https://drive.google.com/file/d/1TXad8ezVrT9drbAKdn6qYy_BMUir-GeS/view?usp=sharing
 
 **DEMO APLICACIÓ WEB**
 https://drive.google.com/file/d/1lW_bBHZS4_TSvfdRy1GmdJC5fVc_q_Wx/view?usp=drive_link
